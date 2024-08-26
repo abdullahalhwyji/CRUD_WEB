@@ -20,8 +20,6 @@ func main() {
 	http.HandleFunc("/categories/add", catagoriescontroller.Add)
 	http.HandleFunc("/categories/edit", catagoriescontroller.Edit)
 	http.HandleFunc("/categories/delete", catagoriescontroller.Delete)
-	
-
 
 	log.Println("Server is runing on port 8000 ...")
 

@@ -9,12 +9,12 @@ import (
 
 func Index(w http.ResponseWriter, r *http.Request) {
 	categories := categorymodel.GetAll()
-	data := map[string]any {
+	data := map[string]any{
 		"categories": categories,
 	}
 
 	temp, err := template.ParseFiles("views/category/index.html")
-	
+
 	if err != nil {
 		panic(err)
 	}
@@ -23,7 +23,13 @@ func Index(w http.ResponseWriter, r *http.Request) {
 }
 
 func Add(w http.ResponseWriter, r *http.Request) {
-
+	if r.Method == "GET" {
+		temp, err := template.ParseFiles("views/category/create.html")
+		if err != nil {
+			panic(err)
+		}
+		temp.Execute(w, nil)
+	}
 }
 func Edit(w http.ResponseWriter, r *http.Request) {
 
