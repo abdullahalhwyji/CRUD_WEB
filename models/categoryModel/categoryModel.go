@@ -17,7 +17,7 @@ func GetAll() []entities.Category {
 
 	for rows.Next() {
 		var category entities.Category
-		err := rows.Scan(&category.Id, &category.Name, &category.CreatedAt, &category.UpdateAt)
+		err := rows.Scan(&category.Id, &category.Name, &category.CreatedAt, &category.UpdatedAt)
 		if err != nil {
 			panic(err)
 		}
@@ -33,7 +33,7 @@ func Create(category entities.Category) bool {
 		`INSERT INTO categories (name, created_at, updated_at)
 		VALUES
 		(?, ? , ?)`,
-		category.Name, category.CreatedAt, category.UpdateAt,
+		category.Name, category.CreatedAt, category.UpdatedAt,
 	)
 
 	if err != nil {
@@ -49,9 +49,7 @@ func Create(category entities.Category) bool {
 
 }
 
-
-
-func Detail (id int) entities.Category{
+func Detail(id int) entities.Category {
 	row := config.DB.QueryRow(`SELECT id, name FROM categories WHERE id = ? `, id)
 	var category entities.Category
 
@@ -59,4 +57,26 @@ func Detail (id int) entities.Category{
 		panic(err.Error())
 	}
 	return category
+}
+
+func Update(id int, category entities.Category) bool {
+	query, err := config.DB.Exec(`UPDATE categories SET name = ?, updated_at= ? WHERE id = ?`, category.Name, category.UpdatedAt, id)
+	if err != nil {
+		panic(err)
+	}
+
+	result, err := query.RowsAffected()
+	if err != nil {
+		panic(err)
+	}
+
+	return result > 0
+}
+
+func Delete(id int) error {
+	_, err := config.DB.Exec(`DELETE FROM categories WHERE id = ?`, id)
+	if err != nil {
+		panic(err)
+	}
+	return err
 }
