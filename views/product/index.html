@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -63,24 +62,31 @@
           </tr>
         </thead>
         <tbody>
-          <!-- {{range .categories}}
+          {{range .products}}
           <tr>
             <td>{{.Name}}</td>
+            <td>{{.Category.Name}}</td>
+            <td>{{.Stock}}</td>
             <td>
               <a
-                href="/categories/edit?id={{.Id}}"
+                href="/products/detail?id={{.Id}}"
+                class="btn btn-sm btn-info text-light"
+                >Detail</a
+              >
+              <a
+                href="/products/edit?id={{.Id}}"
                 class="btn btn-sm btn-warning text-light"
                 >Edit</a
               >
               <a
-                href="/categories/delete?id={{.Id}}"
-                onclick="return confirm('Are you sure want to delete this category ?')"
+                href="/products/delete?id={{.Id}}"
+                onclick="return confirm('Are you sure want to delete this product ?')"
                 class="btn btn-sm btn-danger"
                 >Delete</a
               >
             </td>
           </tr>
-          {{end}} -->
+          {{end}}
         </tbody>
       </table>
     </div>
