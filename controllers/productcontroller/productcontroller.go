@@ -26,6 +26,23 @@ func Index(w http.ResponseWriter, r *http.Request) {
 }
 
 func Detail(w http.ResponseWriter, r *http.Request) {
+	idString := r.URL.Query().Get("id")
+	id, err := strconv.Atoi(idString)
+	if err != nil {
+		panic(err)
+	}
+
+	product := productmodel.Detail(id)
+	data := map[string]any{
+		"product": product,
+	}
+
+	temp, err := template.ParseFiles("views/product/detail.html")
+	if err != nil {
+		panic(err)
+	}
+
+	temp.Execute(w, data)
 
 }
 
@@ -47,16 +64,15 @@ func Add(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		var product entities.Product
 
-		categoryId, err:= strconv.Atoi(r.FormValue("category_id"))
+		categoryId, err := strconv.Atoi(r.FormValue("category_id"))
 		if err != nil {
 			panic(err)
 		}
 
-		stock, err:= strconv.Atoi(r.FormValue("stock"))
+		stock, err := strconv.Atoi(r.FormValue("stock"))
 		if err != nil {
 			panic(err)
 		}
-
 
 		product.Name = r.FormValue("name")
 		product.Category.Id = categoryId
@@ -69,8 +85,6 @@ func Add(w http.ResponseWriter, r *http.Request) {
 			http.Redirect(w, r, r.Header.Get("Referer"), http.StatusTemporaryRedirect)
 			return
 		}
-
-
 
 		http.Redirect(w, r, "/products", http.StatusSeeOther)
 
