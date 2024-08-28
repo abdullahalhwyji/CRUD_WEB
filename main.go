@@ -26,8 +26,8 @@ func main() {
 	http.HandleFunc("/products", productcontroller.Index)
 	http.HandleFunc("/products/add", productcontroller.Add)
 	http.HandleFunc("/products/detail", productcontroller.Detail)
-	// http.HandleFunc("/products/edit", productcontroller.Edit)
-	// http.HandleFunc("/products/delete", productcontroller.Delete)
+	http.HandleFunc("/products/edit", productcontroller.Edit)
+	http.HandleFunc("/products/delete", productcontroller.Delete)
 
 	log.Println("Server is runing on port 8000 ...")
 
